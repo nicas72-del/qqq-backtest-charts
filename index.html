@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>QQQ 백테스트 · 신호 종목 차트</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Malgun Gothic', sans-serif; background: #0f172a; color: #e2e8f0; height: 100vh; overflow: hidden; }
@@ -298,6 +299,52 @@ function drawChart(s) {
             label: ctx => {
               if (ctx.raw === null) return null;
               return ctx.dataset.label + ': ' + (typeof ctx.raw === 'number' ? ctx.raw.toFixed(2)+'%' : ctx.raw);
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            // 진입 수직선
+            entryLine: {
+              type: 'line',
+              xMin: BEFORE,
+              xMax: BEFORE,
+              borderColor: '#4fc3f7',
+              borderWidth: 2,
+              borderDash: [6, 3],
+              label: {
+                content: '▶ 진입',
+                display: true,
+                position: 'start',
+                color: '#4fc3f7',
+                font: { size: 11, weight: 'bold' },
+                backgroundColor: 'rgba(15,23,42,0.8)',
+                padding: 4,
+              }
+            },
+            // 진입 전 음영 (WMA 아래 구간)
+            beforeShade: {
+              type: 'box',
+              xMin: 0,
+              xMax: BEFORE,
+              backgroundColor: 'rgba(239,68,68,0.06)',
+              borderWidth: 0,
+              label: {
+                content: '조정 구간',
+                display: true,
+                position: { x: 'center', y: 'end' },
+                color: '#f87171',
+                font: { size: 9 },
+                backgroundColor: 'transparent',
+              }
+            },
+            // 진입 후 음영
+            afterShade: {
+              type: 'box',
+              xMin: BEFORE,
+              xMax: n - 1,
+              backgroundColor: 'rgba(79,195,247,0.04)',
+              borderWidth: 0,
             }
           }
         }
