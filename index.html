@@ -281,7 +281,8 @@ function selectSignal(idx) {
 function renderStats() {
   const wins = ALL_SIGNALS.filter(s => s.pnl > 0).length;
   const wr = (wins / ALL_SIGNALS.length * 100).toFixed(1);
-  const avgPnl = (ALL_SIGNALS.reduce((a,s) => a + s.pnl, 0) / ALL_SIGNALS.length).toFixed(2);
+  const validPnl = ALL_SIGNALS.filter(s => !isNaN(s.pnl));
+  const avgPnl = validPnl.length > 0 ? (validPnl.reduce((a,s) => a + s.pnl, 0) / validPnl.length).toFixed(2) : '0.00';
   const tpCnt = ALL_SIGNALS.filter(s => s.result === 'TP').length;
   const slCnt = ALL_SIGNALS.filter(s => s.result === 'SL').length;
   document.getElementById('statRow').innerHTML = `
