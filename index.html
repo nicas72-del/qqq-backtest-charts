@@ -145,7 +145,7 @@ function renderSidebar() {
         <span class="name">${s.name}</span>
         <span class="badge badge-${s.strategy}">전략${s.strategy}</span>
       </div>
-      <div class="meta">${s.ticker} · ${s.entry_date} · ${s.regime}</div>
+      <div class="meta">${s.ticker} · ${s.name} · ${s.entry_date} · ${s.regime}</div>
       <div class="pnl ${pnlClass}">${pnlStr} <span style="color:#64748b;font-size:10px">(${s.result})</span></div>
     </div>`;
   }).join('');
@@ -164,7 +164,7 @@ function selectSignal(idx) {
 
   document.getElementById('chartInfo').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <h2>${s.name} (${s.ticker})</h2>
+      <h2>${s.name} <span style="font-size:13px;color:#64748b">(${s.ticker})</span></h2>
       <span class="result-chip ${resultClass}">${resultLabel}</span>
     </div>
     <div class="meta-row">
