@@ -135,16 +135,39 @@ function renderTab(tab){
 
 function renderPre(d){
   const excl=d.excluded||{};
+  const names=d.ticker_names||{};
+  const tickers=d.pre_tickers||[];
+  const rows=tickers.map(t=>`<div style="display:flex;justify-content:space-between;padding:6px 12px;border-bottom:1px solid #0f172a;font-size:11px">
+    <span style="color:#e2e8f0;font-weight:600">${names[t]||t}</span>
+    <span style="color:#64748b">${t}</span>
+  </div>`).join('');
   document.getElementById('main-area').innerHTML=`
-    <div class="pre-view">
-      <div class="stat-grid">
-        <div class="stat-card"><div class="stat-lbl">PRE 후보</div><div class="stat-val" style="color:#60a5fa">${d.total}</div></div>
-        <div class="stat-card"><div class="stat-lbl">월봉 제외</div><div class="stat-val" style="color:#f87171">${excl.monthly||0}</div></div>
-        <div class="stat-card"><div class="stat-lbl">거래대금 제외</div><div class="stat-val" style="color:#f87171">${excl.volume||0}</div></div>
-        <div class="stat-card"><div class="stat-lbl">패턴 제외</div><div class="stat-val" style="color:#f87171">${excl.pattern||0}</div></div>
+    <div style="display:flex;flex-direction:column;width:100%;height:100%;overflow:hidden">
+      <div style="padding:12px 16px;background:#1e293b;border-bottom:1px solid #334155">
+        <div class="stat-grid" style="margin-bottom:0">
+          <div class="stat-card"><div class="stat-lbl">PRE 후보</div><div class="stat-val" style="color:#60a5fa">${d.total}</div></div>
+          <div class="stat-card"><div class="stat-lbl">월봉 제외</div><div class="stat-val" style="color:#f87171">${excl.monthly||0}</div></div>
+          <div class="stat-card"><div class="stat-lbl">거래대금 제외</div><div class="stat-val" style="color:#f87171">${excl.volume||0}</div></div>
+          <div class="stat-card"><div class="stat-lbl">패턴 제외</div><div class="stat-val" style="color:#f87171">${excl.pattern||0}</div></div>
+        </div>
       </div>
-      <div style="color:#334155;font-size:13px;text-align:center;padding:40px 0">PRE 단계는 후보 종목 압축 단계입니다.<br>MID / FINAL에서 신호 종목을 확인하세요.</div>
+      <div style="padding:8px 12px;background:#1e293b;border-bottom:1px solid #334155">
+        <input id="pre-search" type="text" placeholder="종목명 또는 티커 검색..." onkeyup="filterPre()" style="width:100%;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:5px 10px;font-size:12px">
+      </div>
+      <div id="pre-list" style="overflow-y:auto;flex:1">${rows}</div>
     </div>`;
+  window._preData = {names, tickers};
+}
+
+function filterPre(){
+  const q=document.getElementById('pre-search').value.toLowerCase();
+  const {names,tickers}=window._preData||{};
+  if(!tickers)return;
+  const filtered=tickers.filter(t=>!q||(names[t]||t).toLowerCase().includes(q)||t.includes(q));
+  document.getElementById('pre-list').innerHTML=filtered.map(t=>`<div style="display:flex;justify-content:space-between;padding:6px 12px;border-bottom:1px solid #0f172a;font-size:11px">
+    <span style="color:#e2e8f0;font-weight:600">${names[t]||t}</span>
+    <span style="color:#64748b">${t}</span>
+  </div>`).join('');
 }
 
 function renderSidebar(){
