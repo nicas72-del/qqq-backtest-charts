@@ -137,26 +137,43 @@ function renderPre(d){
   const excl=d.excluded||{};
   const names=d.ticker_names||{};
   const tickers=d.pre_tickers||[];
-  const rows=tickers.map(t=>`<div style="display:flex;justify-content:space-between;padding:6px 12px;border-bottom:1px solid #0f172a;font-size:11px">
+  const rows=tickers.map(t=>`<div class="pre-item" onclick="showPreChart('${t}','${(names[t]||t).replace(/'/g,"\'")}')" style="display:flex;justify-content:space-between;align-items:center;padding:7px 12px;border-bottom:1px solid #0f172a;font-size:11px;cursor:pointer;transition:background 0.1s" onmouseover="this.style.background='#1e3a8a'" onmouseout="this.style.background=''">
     <span style="color:#e2e8f0;font-weight:600">${names[t]||t}</span>
     <span style="color:#64748b">${t}</span>
   </div>`).join('');
   document.getElementById('main-area').innerHTML=`
-    <div style="display:flex;flex-direction:column;width:100%;height:100%;overflow:hidden">
-      <div style="padding:12px 16px;background:#1e293b;border-bottom:1px solid #334155">
-        <div class="stat-grid" style="margin-bottom:0">
-          <div class="stat-card"><div class="stat-lbl">PRE 후보</div><div class="stat-val" style="color:#60a5fa">${d.total}</div></div>
-          <div class="stat-card"><div class="stat-lbl">월봉 제외</div><div class="stat-val" style="color:#f87171">${excl.monthly||0}</div></div>
-          <div class="stat-card"><div class="stat-lbl">거래대금 제외</div><div class="stat-val" style="color:#f87171">${excl.volume||0}</div></div>
-          <div class="stat-card"><div class="stat-lbl">패턴 제외</div><div class="stat-val" style="color:#f87171">${excl.pattern||0}</div></div>
+    <div style="display:flex;width:100%;height:100%;overflow:hidden">
+      <div style="width:220px;min-width:220px;display:flex;flex-direction:column;border-right:1px solid #334155">
+        <div style="padding:10px 12px;background:#1e293b;border-bottom:1px solid #334155">
+          <div class="stat-grid" style="grid-template-columns:repeat(2,1fr);margin-bottom:8px">
+            <div class="stat-card" style="padding:8px 10px"><div class="stat-lbl">PRE 후보</div><div class="stat-val" style="color:#60a5fa;font-size:16px">${d.total}</div></div>
+            <div class="stat-card" style="padding:8px 10px"><div class="stat-lbl">월봉 제외</div><div class="stat-val" style="color:#f87171;font-size:16px">${excl.monthly||0}</div></div>
+          </div>
+          <input id="pre-search" type="text" placeholder="종목명/티커 검색..." onkeyup="filterPre()" style="width:100%;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:5px 10px;font-size:11px">
         </div>
+        <div id="pre-list" style="overflow-y:auto;flex:1">${rows}</div>
       </div>
-      <div style="padding:8px 12px;background:#1e293b;border-bottom:1px solid #334155">
-        <input id="pre-search" type="text" placeholder="종목명 또는 티커 검색..." onkeyup="filterPre()" style="width:100%;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:5px 10px;font-size:12px">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center" id="pre-chart-area">
+        <div style="color:#334155;font-size:13px">← 종목을 선택하면 차트가 표시됩니다</div>
       </div>
-      <div id="pre-list" style="overflow-y:auto;flex:1">${rows}</div>
     </div>`;
   window._preData = {names, tickers};
+}
+
+function showPreChart(ticker, name) {
+  document.querySelectorAll('.pre-item').forEach(e=>e.style.background='');
+  event.currentTarget.style.background='#1e3a8a';
+  const area = document.getElementById('pre-chart-area');
+  const exchange = ticker.startsWith('0') ? 'KRX' : 'KOSDAQ';
+  area.innerHTML = `
+    <div style="width:100%;padding:8px 12px;background:#1e293b;border-bottom:1px solid #334155;font-size:12px;color:#e2e8f0;font-weight:600">
+      ${name} <span style="color:#64748b;font-weight:400">(${ticker})</span>
+    </div>
+    <iframe src="https://www.tradingview.com/widgetembed/?symbol=KRX:${ticker}&interval=W&theme=dark&style=1&locale=kr&hide_top_toolbar=0&save_image=0&allow_symbol_change=0"
+      style="width:100%;flex:1;border:none" frameborder="0" allowtransparency="true" scrolling="no"></iframe>`;
+  area.style.flexDirection='column';
+  area.style.alignItems='stretch';
+  area.style.justifyContent='flex-start';
 }
 
 function filterPre(){
@@ -164,7 +181,7 @@ function filterPre(){
   const {names,tickers}=window._preData||{};
   if(!tickers)return;
   const filtered=tickers.filter(t=>!q||(names[t]||t).toLowerCase().includes(q)||t.includes(q));
-  document.getElementById('pre-list').innerHTML=filtered.map(t=>`<div style="display:flex;justify-content:space-between;padding:6px 12px;border-bottom:1px solid #0f172a;font-size:11px">
+  document.getElementById('pre-list').innerHTML=filtered.map(t=>`<div class="pre-item" onclick="showPreChart('${t}','${(names[t]||t).replace(/'/g,"\'")}')" style="display:flex;justify-content:space-between;align-items:center;padding:7px 12px;border-bottom:1px solid #0f172a;font-size:11px;cursor:pointer;transition:background 0.1s" onmouseover="this.style.background='#1e3a8a'" onmouseout="this.style.background=''">
     <span style="color:#e2e8f0;font-weight:600">${names[t]||t}</span>
     <span style="color:#64748b">${t}</span>
   </div>`).join('');
