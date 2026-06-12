@@ -60,10 +60,10 @@ body{font-family:'Malgun Gothic',sans-serif;background:#0f172a;color:#e2e8f0;hei
   <span id="regime-badge" class="regime-badge" style="display:none"></span>
 </div>
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('pre')" id="tab-pre">PRE <span class="tab-cnt" id="cnt-pre">0</span> <span id="tab-time-pre" style="font-size:9px;color:#475569;margin-left:2px"></span></div>
+  <div class="tab active" onclick="switchTab('e')" id="tab-e">전략E <span class="tab-cnt" id="cnt-e">0</span> <span id="tab-time-e" style="font-size:9px;color:#475569;margin-left:2px"></span></div>
+  <div class="tab" onclick="switchTab('pre')" id="tab-pre">PRE <span class="tab-cnt" id="cnt-pre">0</span> <span id="tab-time-pre" style="font-size:9px;color:#475569;margin-left:2px"></span></div>
   <div class="tab" onclick="switchTab('mid')" id="tab-mid">MID <span class="tab-cnt" id="cnt-mid">0</span> <span id="tab-time-mid" style="font-size:9px;color:#475569;margin-left:2px"></span></div>
   <div class="tab" onclick="switchTab('final')" id="tab-final">FINAL <span class="tab-cnt" id="cnt-final">0</span> <span id="tab-time-final" style="font-size:9px;color:#475569;margin-left:2px"></span></div>
-  <div class="tab" onclick="switchTab('e')" id="tab-e">전략E <span class="tab-cnt" id="cnt-e">0</span> <span id="tab-time-e" style="font-size:9px;color:#475569;margin-left:2px"></span></div>
 </div>
 <div class="main" id="main-area">
   <div style="display:flex;align-items:center;justify-content:center;width:100%;color:#334155;font-size:13px">데이터 로딩 중...</div>
@@ -88,7 +88,7 @@ async function loadData(){
   });
   // 헤더 시간은 현재 탭 기준으로 setRegime에서 처리
   document.getElementById('updated-time').textContent='';
-  switchTab('pre');
+  switchTab('e');
 }
 
 function switchTab(tab){
