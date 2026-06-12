@@ -68,13 +68,13 @@ body{font-family:'Malgun Gothic',sans-serif;background:#0f172a;color:#e2e8f0;hei
   <div style="display:flex;align-items:center;justify-content:center;width:100%;color:#334155;font-size:13px">데이터 로딩 중...</div>
 </div>
 <script>
-const GIST="https://gist.githubusercontent.com/nicas72-del/1310faba962a6f5b21c4ebf7d90991ef/raw/";
+const GIST="./";
 let allData={pre:null,mid:null,final:null,e:null};
 let currentTab='pre',chart=null,filteredSigs=[];
 
 async function loadData(){
   await Promise.all(['pre','mid','final','e'].map(async m=>{
-    try{const r=await fetch(GIST+`signals_${m}.json?t=`+Date.now());if(r.ok)allData[m]=await r.json();}catch(e){}
+    try{const r=await fetch(GIST+`signals_${m === 'final' ? 'full' : m}.json?t=`+Date.now());if(r.ok)allData[m]=await r.json();}catch(e){}
   }));
   ['pre','mid','final','e'].forEach(m=>{
     const d=allData[m];
