@@ -1,0 +1,68 @@
+{
+  "status": "success",
+  "mode": "e",
+  "date": "2026-06-12 22:23",
+  "counts": {
+    "Strategy_E": 2
+  },
+  "signals": {
+    "Strategy_E": [
+      {
+        "name": "TPC로보틱스",
+        "ticker": "048770",
+        "curr": "4,525",
+        "tp": "4,661",
+        "sl": "4,510",
+        "wma60": "4,510",
+        "rr": 9.07,
+        "avg_vol_amt": 0,
+        "strategies": [
+          "Strategy_E"
+        ]
+      },
+      {
+        "name": "아이씨티케이",
+        "ticker": "456010",
+        "curr": "25,100",
+        "tp": "25,853",
+        "sl": "24,622",
+        "wma60": "24,622",
+        "rr": 1.58,
+        "avg_vol_amt": 0,
+        "strategies": [
+          "Strategy_E"
+        ]
+      }
+    ]
+  },
+  "multi_hit": [
+    {
+      "name": "TPC로보틱스",
+      "ticker": "048770",
+      "curr": "4,525",
+      "tp": "4,661",
+      "sl": "4,510",
+      "wma60": "4,510",
+      "rr": 9.07,
+      "avg_vol_amt": 0,
+      "strategies": [
+        "Strategy_E"
+      ]
+    },
+    {
+      "name": "아이씨티케이",
+      "ticker": "456010",
+      "curr": "25,100",
+      "tp": "25,853",
+      "sl": "24,622",
+      "wma60": "24,622",
+      "rr": 1.58,
+      "avg_vol_amt": 0,
+      "strategies": [
+        "Strategy_E"
+      ]
+    }
+  ],
+  "total": 2,
+  "regime": "unknown"
+}
